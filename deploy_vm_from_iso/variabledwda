@@ -1,0 +1,6 @@
+variable "ovf_path" {
+
+  default = "192.168.100.25"
+
+}
+
