@@ -1,3 +1,4 @@
+#setting provider
 provider "vsphere" {
 
   user      = "root"
@@ -10,36 +11,38 @@ provider "vsphere" {
 
 }
 
-
-
+#definining the datacenter
 data "vsphere_datacenter" "datacenter" {
     name = "dc1"
 }
 
-
+#defining the host youre working with
 data "vsphere_host" "esxi1" {
   name = "192.168.100.25"
   datacenter_id = data.vsphere_datacenter.datacenter.id
 }
 
+#defining both datastores youre working with
 data "vsphere_datastore" "datastore1" {
     name          = "datastore1"
     datacenter_id = data.vsphere_datacenter.datacenter.id
 }
-
 
 data "vsphere_datastore" "datastore2" {
     name          = "datastore2"
     datacenter_id = data.vsphere_datacenter.datacenter.id
 }
 
+#defining a default resource pool since we don't hace them
 data "vsphere_resource_pool" "rp" {}
 
+#defining the VM networking
 data "vsphere_network" "networking" {
     name          = "VM Network"
     datacenter_id = data.vsphere_datacenter.datacenter.id
 }
 
+#defining the config of the virtual machine and where is being the ISO pulled from
 resource "vsphere_virtual_machine" "centOS8" {
   count                      = 1
   name                       = "centOS8"
